@@ -1,0 +1,42 @@
+{
+  "consumer": {
+    "name": "order-backend"
+  },
+  "interactions": [
+    {
+      "description": "GET /product-api/products/1",
+      "providerStates": [
+        {
+          "name": "product with id 1 exists"
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/product-api/products/1"
+      },
+      "response": {
+        "body": {
+          "currency": "EUR",
+          "id": 1,
+          "name": "TestProduct",
+          "price": 19.99
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "status": 200
+      }
+    }
+  ],
+  "metadata": {
+    "pact-jvm": {
+      "version": "4.6.11"
+    },
+    "pactSpecification": {
+      "version": "3.0.0"
+    }
+  },
+  "provider": {
+    "name": "product-backend"
+  }
+}

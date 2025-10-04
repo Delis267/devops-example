@@ -1,0 +1,5 @@
+server:
+  port: 8080
+product:
+  api:
+    base-url: http://localhost:8081/product-api

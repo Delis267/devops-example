@@ -1,1 +1,3 @@
-auftragsverwaltung\contract\ProductConsumerPactTestIntegrationTest.class
+auftragsverwaltung\api\OrderApiTest.class
+auftragsverwaltung\domain\OrderDomainTest.class
+auftragsverwaltung\contract\ProductConsumerPactTest.class

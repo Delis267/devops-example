@@ -1,0 +1,10 @@
+auftragsverwaltung\api\OrderService.class
+auftragsverwaltung\infrastructure\ProductServiceImpl.class
+auftragsverwaltung\OrderApp.class
+auftragsverwaltung\infrastructure\ProductService.class
+auftragsverwaltung\api\OrderController.class
+auftragsverwaltung\domain\OrderServiceImpl.class
+auftragsverwaltung\domain\Order.class
+auftragsverwaltung\infrastructure\ProductDTO.class
+auftragsverwaltung\domain\Order$State.class
+auftragsverwaltung\infrastructure\HttpClientConfig.class

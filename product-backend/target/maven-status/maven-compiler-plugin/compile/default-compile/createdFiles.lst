@@ -1,0 +1,7 @@
+produktkatalog\ProductApp.class
+produktkatalog\api\login\LoginController.class
+produktkatalog\api\ProductController.class
+produktkatalog\infrastructure\ProductService.class
+produktkatalog\domain\Product.class
+produktkatalog\domain\CurrencyCode.class
+produktkatalog\infrastructure\ProductSeriveImpl.class

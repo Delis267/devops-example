@@ -2,13 +2,8 @@ GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_
 order-backend,auftragsverwaltung.domain,OrderServiceImpl,44,0,3,0,6,0,5,0,3,0
 order-backend,auftragsverwaltung.domain,Order.State,0,21,0,0,0,1,0,1,0,1
 order-backend,auftragsverwaltung.domain,Order,10,41,2,2,2,10,2,3,0,3
-order-backend,demo.api,ProductController,4,15,0,0,1,3,1,2,1,2
 order-backend,auftragsverwaltung,OrderApp,5,3,0,0,1,1,1,1,1,1
-order-backend,demo.infrastructure,DatabaseImpl,73,0,7,0,10,0,8,0,3,0
+order-backend,auftragsverwaltung.infrastructure,ProductServiceImpl,0,26,0,0,0,6,0,2,0,2
 order-backend,auftragsverwaltung.infrastructure,ProductDTO,0,15,0,0,0,1,0,1,0,1
 order-backend,auftragsverwaltung.infrastructure,HttpClientConfig,12,0,0,0,5,0,2,0,2,0
-order-backend,auftragsverwaltung.infrastructure,ProductServiceImpl,0,26,0,0,0,6,0,2,0,2
 order-backend,auftragsverwaltung.api,OrderController,7,14,0,0,1,2,1,2,1,2
-order-backend,demo,App,5,3,0,0,1,1,1,1,1,1
-order-backend,demo.domain,Order.State,0,21,0,0,0,1,0,1,0,1
-order-backend,demo.domain,Order,9,41,2,2,2,12,2,3,0,3

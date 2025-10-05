@@ -15,3 +15,5 @@ Dieses Repo demonstriert ohne echte Business-App eine Testlandschaft für den Ku
   - E2E-Test with Cypress \
 ![Cypress UI](frontend/src/cypress/screenshots/cypress_open.png)
 
+![Sonar PullRequest](.github/sonar_decorator.png)
+

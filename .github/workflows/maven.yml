@@ -9,6 +9,11 @@ on:
   pull_request:
     branches: [ "main" ]
 
+permissions:
+  contents: read
+  checks: write
+  pull-requests: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -31,6 +36,7 @@ jobs:
         path: '**/surefire-reports/*.xml'
         reporter: java-junit
         fail-on-error: false
+        token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Upload JUnit reports
       if: always()

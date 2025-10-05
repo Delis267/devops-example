@@ -1,23 +1,27 @@
 package produktkatalog.api;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import produktkatalog.domain.Product;
-import produktkatalog.infrastructure.ProductDatabase;
+import produktkatalog.infrastructure.ProductService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/product-api")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class ProductController {
 
-    private final ProductDatabase productDatabase;
+    private final ProductService productService;
 
     @GetMapping("/products/{id}")
     public Product get(@PathVariable("id") String id) {
-        return productDatabase.getProductById(Integer.parseInt(id));
+        return productService.getProductById(Integer.parseInt(id));
     }
 
+    @GetMapping("/products")
+    public List<Product> getAll() throws InterruptedException {
+        return productService.getAllProducts();
+    }
 }

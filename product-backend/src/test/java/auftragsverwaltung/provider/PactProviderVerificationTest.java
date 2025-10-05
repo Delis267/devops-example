@@ -16,7 +16,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import produktkatalog.ProductApp;
 import produktkatalog.domain.Product;
-import produktkatalog.infrastructure.ProductDatabase;
+import produktkatalog.infrastructure.ProductService;
 
 import java.math.BigDecimal;
 
@@ -34,7 +34,7 @@ class PactProviderVerificationTest {
     int port;
 
     @MockBean
-    ProductDatabase productDatabase;
+    ProductService productDatabase;
 
     @BeforeEach
     void setup(PactVerificationContext ctx) {

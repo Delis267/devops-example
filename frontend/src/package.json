@@ -1,0 +1,21 @@
+{
+  "name": "src",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "start": "serve -l 5173",
+    "cy:open": "cypress open",
+    "cy:run": "cypress run",
+    "test:e2e": "start-server-and-test start http://localhost:5173 cy:run",
+    "test:open-e2e": "start-server-and-test start http://localhost:5173 cy:open"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "cypress": "^15.3.0",
+    "serve": "^14.2.5",
+    "start-server-and-test": "^2.1.2"
+  }
+}

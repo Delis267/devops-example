@@ -11,7 +11,10 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
+import static auftragsverwaltung.domain.Order.State.PAID;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -32,7 +35,7 @@ public class OrderApiTest {
     @Test
     void getOrderById_returnsOrder() throws Exception {
         Order unpaidOrder = new Order(List.of(TEST_PRODUCT));
-        when(orderService.findOrder(1)).thenReturn(unpaidOrder);
+        when(orderService.findOrder(1)).thenReturn(Optional.of(unpaidOrder));
 
         mockMvc.perform(get("/api/orders/1"))
                 .andExpect(status().isOk())
@@ -44,11 +47,19 @@ public class OrderApiTest {
     }
 
     @Test
+    void wrongId_returnsNotFound() throws Exception {
+        when(orderService.payOrder(any())).thenReturn(Optional.empty());
+
+        mockMvc.perform(put("/api/orders/999/pay"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
     void payOrder_returnsPaidOrder() throws Exception {
         Order paidOrder = Mockito.mock(Order.class);
-        when(paidOrder.getState()).thenReturn(Order.State.PAID);
+        when(paidOrder.getState()).thenReturn(PAID);
         when(paidOrder.getOrderedProducts()).thenReturn(List.of(TEST_PRODUCT));
-        when(orderService.payOrder(1)).thenReturn(paidOrder);
+        when(orderService.payOrder(1)).thenReturn(Optional.of(paidOrder));
 
         mockMvc.perform(put("/api/orders/1/pay"))
                 .andExpect(status().isOk())

@@ -2,9 +2,13 @@ package auftragsverwaltung.api;
 
 import auftragsverwaltung.domain.Order;
 
+import java.util.Optional;
+
 
 public interface OrderService {
-    Order findOrder(Integer orderId);
-    Order payOrder(Integer orderId);
-    Order cancelOrder(Integer orderId);
+    Optional<Order> findOrder(Integer orderId);
+
+    Optional<Order> payOrder(Integer orderId);
+
+    Optional<Order> cancelOrder(Integer orderId);
 }

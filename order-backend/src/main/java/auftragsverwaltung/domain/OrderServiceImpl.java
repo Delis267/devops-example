@@ -6,29 +6,30 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
-    private final ProductService productService;
+    private final ProductService prodService;
 
     @Override
-    public Order findOrder(Integer orderId) {
+    public Optional<Order> findOrder(Integer orderId) {
         return switch (orderId) {
-            case 1 -> new Order(List.of(productService.getProductById(1)));
-            case 2 -> new Order(List.of(productService.getProductById(1), productService.getProductById(2)));
-            default -> throw new IllegalStateException("bad id");
+            case 1 -> Optional.of(new Order(List.of(prodService.getProductById(1))));
+            case 2 -> Optional.of(new Order(List.of(prodService.getProductById(1), prodService.getProductById(2))));
+            default -> Optional.empty();
         };
     }
 
     @Override
-    public Order payOrder(Integer orderId) {
-        return findOrder(orderId).pay();
+    public Optional<Order> payOrder(Integer orderId) {
+        return findOrder(orderId).map(Order::pay);
     }
 
     @Override
-    public Order cancelOrder(Integer orderId) {
-        return findOrder(orderId).cancel();
+    public Optional<Order> cancelOrder(Integer orderId) {
+        return findOrder(orderId).map(Order::cancel);
     }
 }

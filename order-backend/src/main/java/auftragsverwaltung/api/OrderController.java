@@ -2,9 +2,8 @@ package auftragsverwaltung.api;
 
 import auftragsverwaltung.domain.Order;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -14,18 +13,18 @@ public class OrderController {
     private final OrderService orderService;
 
     @PutMapping("/orders/{orderId}/pay")
-    public Order pay(@PathVariable("orderId") String orderId) {
-        return orderService.payOrder(Integer.parseInt(orderId));
+    public ResponseEntity<Order> pay(@PathVariable("orderId") Integer orderId) {
+        return ResponseEntity.of(orderService.payOrder(orderId));
     }
 
     @PutMapping("/orders/{orderId}/cancel")
-    public Order cancel(@PathVariable("orderId") String orderId) {
-        return orderService.cancelOrder(Integer.parseInt(orderId));
+    public ResponseEntity<Order> cancel(@PathVariable("orderId") Integer orderId) {
+        return ResponseEntity.of(orderService.cancelOrder(orderId));
     }
 
     @GetMapping("/orders/{orderId}")
-    public Order findOrder(@PathVariable("orderId") String orderId) {
-        return orderService.findOrder(Integer.parseInt(orderId));
+    public ResponseEntity<Order> findOrder(@PathVariable("orderId") Integer orderId) {
+        return ResponseEntity.of(orderService.findOrder(orderId));
     }
 
 }

@@ -1,6 +1,7 @@
 package produktkatalog.api;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import produktkatalog.domain.Product;
 import produktkatalog.infrastructure.ProductService;
@@ -16,8 +17,8 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping("/products/{id}")
-    public Product get(@PathVariable("id") String id) {
-        return productService.getProductById(Integer.parseInt(id));
+    public ResponseEntity<Product> get(@PathVariable("id") Integer id) {
+        return ResponseEntity.of(productService.getProductById(id));//
     }
 
     @GetMapping("/products")

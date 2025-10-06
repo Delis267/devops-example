@@ -17,4 +17,12 @@ public class Product {
     private BigDecimal price;
     @JsonDeserialize(using = EnumDeserializer.class)
     private CurrencyCode currency;
+
+    public enum CurrencyCode {
+        EUR
+    }
+
+    public static Product from(int id, String name, String price) {
+        return new Product(id, name, new BigDecimal(price), CurrencyCode.EUR);
+    }
 }

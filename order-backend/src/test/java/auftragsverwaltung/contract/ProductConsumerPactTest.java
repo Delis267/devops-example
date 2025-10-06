@@ -12,28 +12,30 @@ import auftragsverwaltung.infrastructure.ProductDTO;
 import auftragsverwaltung.infrastructure.ProductServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 @ExtendWith(PactConsumerTestExt.class)
 @PactTestFor(providerName = "product-backend", pactVersion = PactSpecVersion.V3)
 class ProductConsumerPactTest {
 
     @Pact(consumer = "order-backend", provider = "product-backend")
-    public RequestResponsePact createPact(PactDslWithProvider builder) {
+    public RequestResponsePact getProduct_ok(PactDslWithProvider builder) {
         PactDslJsonBody body = new PactDslJsonBody()
-                .numberValue("id", 1)
-                .stringValue("name", "TestProduct")
-                .numberValue("price", 19.99)
-                .stringValue("currency", "EUR");
+                .numberType("id", 1)
+                .stringType("name", "TestProduct")
+                .numberType("price", 19.99)
+                .stringMatcher("currency", "EUR|USD");
 
         return builder
-                .given("product with id 1 exists")
-                .uponReceiving("GET /product-api/products/1")
-                .path("/product-api/products/1")
+                .given("product 1 exists")
+                .uponReceiving("GET /products/1")
+                .path("/products/1")
                 .method("GET")
                 .willRespondWith()
                 .status(200)
@@ -42,17 +44,37 @@ class ProductConsumerPactTest {
                 .toPact();
     }
 
+    @Pact(consumer = "order-backend", provider = "product-backend")
+    public RequestResponsePact getProduct_notFound(PactDslWithProvider builder) {
+        return builder
+                .given("product 999 not found")
+                .uponReceiving("GET /products/999")
+                .path("/products/999")
+                .method("GET")
+                .willRespondWith()
+                .status(404)
+                .toPact();
+    }
+
     @Test
-    @PactTestFor
+    @PactTestFor(pactMethod = "getProduct_ok")
     public void verifiesGetProductById(MockServer mockServer) {
-        var productService = new ProductServiceImpl(new RestTemplate(), mockServer.getUrl() + "/product-api");
+        var productService = new ProductServiceImpl(new RestTemplate(), mockServer.getUrl());
 
         ProductDTO dto = productService.getProductById(1);
 
         assertThat(dto.id()).isEqualTo(1);
         assertThat(dto.name()).isEqualTo("TestProduct");
         assertThat(dto.price()).isEqualByComparingTo("19.99");
-        assertThat(dto.currency()).isEqualTo("EUR");
+        assertThat(dto.currency()).containsAnyOf("EUR", "USD");
+    }
+
+    @Test
+    @PactTestFor(pactMethod = "getProduct_notFound")
+    public void verifiesGetProductNotFound(MockServer mockServer) {
+        var svc = new ProductServiceImpl(new RestTemplate(), mockServer.getUrl());
+        assertThatExceptionOfType(HttpClientErrorException.NotFound.class)
+                .isThrownBy(() -> svc.getProductById(999));
     }
 
 }

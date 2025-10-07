@@ -14,6 +14,6 @@ Dieses Repo demonstriert ohne echte Business-App eine Testlandschaft für den Ku
 ### **frontend** (Simple html+js)
   - E2E-Test with Cypress \
 ![Cypress UI](frontend/src/cypress/screenshots/cypress_open.png)
-
 ![Sonar PullRequest](.github/sonar_decorator.png)
+![Pipelines](.github/pipeline_vis.png "Pipelines")
 

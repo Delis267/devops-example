@@ -28,7 +28,8 @@ import static produktkatalog.domain.Product.CurrencyCode.EUR;
 
 @Provider("product-backend")
 @Consumer("order-backend")
-@PactFolder("../order-backend/target/pacts")
+//@PactFolder("../order-backend/target/pacts")
+@PactFolder("/pacts")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = ProductApp.class)
 @ExtendWith(PactVerificationSpring6Provider.class)
 class PactProviderVerificationTest {

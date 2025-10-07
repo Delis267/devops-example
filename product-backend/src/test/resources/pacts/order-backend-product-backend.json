@@ -4,25 +4,95 @@
   },
   "interactions": [
     {
-      "description": "GET /product-api/products/1",
+      "description": "GET /products/999",
       "providerStates": [
         {
-          "name": "product with id 1 exists"
+          "name": "product 999 not found"
         }
       ],
       "request": {
         "method": "GET",
-        "path": "/product-api/products/1"
+        "path": "/products/999"
+      },
+      "response": {
+        "status": 404
+      }
+    },
+    {
+      "description": "GET ein Product das existiert",
+      "providerStates": [
+        {
+          "name": "product exists",
+          "params": {
+            "id": 1
+          }
+        }
+      ],
+      "request": {
+        "generators": {
+          "path": {
+            "dataType": "STRING",
+            "expression": "/products/${id}",
+            "type": "ProviderState"
+          }
+        },
+        "method": "GET",
+        "path": "/products/1"
       },
       "response": {
         "body": {
-          "currency": "EUR",
+          "currency": "USD",
           "id": 1,
           "name": "TestProduct",
           "price": 19.99
         },
+        "generators": {
+          "body": {
+            "$.currency": {
+              "regex": "EUR|USD",
+              "type": "Regex"
+            }
+          }
+        },
         "headers": {
           "Content-Type": "application/json"
+        },
+        "matchingRules": {
+          "body": {
+            "$.currency": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "EUR|USD"
+                }
+              ]
+            },
+            "$.id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "number"
+                }
+              ]
+            },
+            "$.name": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.price": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "number"
+                }
+              ]
+            }
+          }
         },
         "status": 200
       }

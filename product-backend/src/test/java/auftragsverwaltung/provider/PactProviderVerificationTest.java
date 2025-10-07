@@ -20,7 +20,7 @@ import produktkatalog.domain.Product;
 import produktkatalog.infrastructure.ProductService;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
+import java.util.Map;
 import java.util.Optional;
 
 import static org.mockito.Mockito.when;
@@ -44,10 +44,32 @@ class PactProviderVerificationTest {
         ctx.setTarget(new HttpTestTarget("localhost", port, "/product-api"));
     }
 
-    @State("product 1 exists")
-    void setupUpProductExists() {
-        when(productService.getProductById(1))
-                .thenReturn(Optional.of(new Product(1, "TestProduct", new BigDecimal("19.99"), EUR)));
+    @State("product exists")
+    void setupUpProductExists(Map<String, Object> params) {
+        Integer id = Integer.valueOf(params.getOrDefault("id", 1).toString());
+
+        System.err.println("ID: "+ id); //ID: 1 found!
+        /**
+         * 1) Verifying a pact between order-backend and product-backend - GET ein Product das existiert: has status code 200
+         *
+         *     1.1) status: expected status of 200 but was 404
+         *
+         *     1.2) body: $ Actual map is missing the following keys: currency, id, name, price
+         *
+         *         {
+         *         -  "currency": "USD",
+         *         -  "id": 1,
+         *         -  "name": "TestProduct",
+         *         -  "price": 19.99
+         *         +  "error": "Not Found",
+         *         +  "path": "/product-api/products/",
+         *         +  "status": 404,
+         *         +  "timestamp": "2025-10-07T07:50:53.601+00:00"
+         *         }
+         */
+
+        when(productService.getProductById(id))
+                .thenReturn(Optional.of(new Product(id, "TestProduct", new BigDecimal("19.99"), EUR)));
     }
 
     @State("product 999 not found")
@@ -61,14 +83,4 @@ class PactProviderVerificationTest {
     void verify(PactVerificationContext ctx) {
         ctx.verifyInteraction();
     }
-
-
-    private static Integer asInt(Object value) {
-        if (value instanceof Integer i) return i;
-        if (value instanceof Long l) return l.intValue();
-        if (value instanceof BigInteger bi) return bi.intValue();
-        if (value instanceof Number n) return n.intValue();
-        return Integer.parseInt(String.valueOf(value));
-    }
-
 }

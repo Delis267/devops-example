@@ -26,16 +26,17 @@ class ProductConsumerPactTest {
 
     @Pact(consumer = "order-backend", provider = "product-backend")
     public RequestResponsePact getProduct_ok(PactDslWithProvider builder) {
+        Integer id = 1;
         PactDslJsonBody body = new PactDslJsonBody()
-                .numberType("id", 1)
+                .numberType("id", id)
                 .stringType("name", "TestProduct")
                 .numberType("price", 19.99)
                 .stringMatcher("currency", "EUR|USD");
 
         return builder
-                .given("product 1 exists")
-                .uponReceiving("GET /products/1")
-                .path("/products/1")
+                .given("product exists", Map.of("id", id))
+                .uponReceiving("GET ein Product das existiert")
+                .pathFromProviderState("/products/${id}", "/products/%d".formatted(id))
                 .method("GET")
                 .willRespondWith()
                 .status(200)

@@ -1,3 +1,5 @@
 order-backend/target
 product-backend/target
 frontend/src/node_modules
+target
+.idea

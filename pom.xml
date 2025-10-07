@@ -3,14 +3,44 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
                              http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>de.example</groupId>
-    <artifactId>my-repo</artifactId>
+    <groupId>de.delis</groupId>
+    <artifactId>devops-example</artifactId>
     <version>1.0.0</version>
     <packaging>pom</packaging>
+
+    <properties>
+        <spring.boot.version>3.5.6</spring.boot.version>
+        <java.version>21</java.version>
+    </properties>
 
     <modules>
         <module>order-backend</module>
         <module>product-backend</module>
         <module>perf-gatling</module>
     </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring.boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <version>2.19.1</version>
+                <configuration>
+                    <ignoredVersions>.*-M.*,.*-alpha.*,.*-beta.*</ignoredVersions>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

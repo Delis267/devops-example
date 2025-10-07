@@ -9,6 +9,7 @@
         <option value="$PROJECT_DIR$/provider-stub/pom.xml" />
         <option value="$PROJECT_DIR$/order-backend/pom.xml" />
         <option value="$PROJECT_DIR$/product-backend/pom.xml" />
+        <option value="$PROJECT_DIR$/pom.xml" />
       </list>
     </option>
   </component>

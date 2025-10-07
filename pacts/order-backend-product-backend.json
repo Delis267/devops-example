@@ -4,21 +4,6 @@
   },
   "interactions": [
     {
-      "description": "GET /products/999",
-      "providerStates": [
-        {
-          "name": "product 999 not found"
-        }
-      ],
-      "request": {
-        "method": "GET",
-        "path": "/products/999"
-      },
-      "response": {
-        "status": 404
-      }
-    },
-    {
       "description": "GET ein Product das existiert",
       "providerStates": [
         {
@@ -32,16 +17,16 @@
         "generators": {
           "path": {
             "dataType": "STRING",
-            "expression": "/products/${id}",
+            "expression": "/product-api/products/${id}",
             "type": "ProviderState"
           }
         },
         "method": "GET",
-        "path": "/products/1"
+        "path": "/product-api/products/1"
       },
       "response": {
         "body": {
-          "currency": "USD",
+          "currency": "EUR",
           "id": 1,
           "name": "TestProduct",
           "price": 19.99
@@ -96,11 +81,33 @@
         },
         "status": 200
       }
+    },
+    {
+      "description": "GET eine Produktnummer die nicht existiert",
+      "providerStates": [
+        {
+          "name": "product not found"
+        }
+      ],
+      "request": {
+        "generators": {
+          "path": {
+            "dataType": "STRING",
+            "expression": "/product-api/products/${notFoundId}",
+            "type": "ProviderState"
+          }
+        },
+        "method": "GET",
+        "path": "/product-api/products/999"
+      },
+      "response": {
+        "status": 404
+      }
     }
   ],
   "metadata": {
     "pact-jvm": {
-      "version": "4.6.11"
+      "version": "4.6.17"
     },
     "pactSpecification": {
       "version": "3.0.0"

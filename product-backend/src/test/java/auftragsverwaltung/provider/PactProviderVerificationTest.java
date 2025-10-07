@@ -28,8 +28,7 @@ import static produktkatalog.domain.Product.CurrencyCode.EUR;
 
 @Provider("product-backend")
 @Consumer("order-backend")
-//@PactFolder("../order-backend/target/pacts")
-@PactFolder("/pacts")
+@PactFolder("../pacts")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = ProductApp.class)
 @ExtendWith(PactVerificationSpring6Provider.class)
 class PactProviderVerificationTest {
@@ -42,40 +41,20 @@ class PactProviderVerificationTest {
 
     @BeforeEach
     void setup(@NotNull PactVerificationContext ctx) {
-        ctx.setTarget(new HttpTestTarget("localhost", port, "/product-api"));
+        ctx.setTarget(new HttpTestTarget("localhost", port));
     }
 
     @State("product exists")
     void setupUpProductExists(Map<String, Object> params) {
         Integer id = Integer.valueOf(params.getOrDefault("id", 1).toString());
-
-        System.err.println("ID: "+ id); //ID: 1 found!
-        /**
-         * 1) Verifying a pact between order-backend and product-backend - GET ein Product das existiert: has status code 200
-         *
-         *     1.1) status: expected status of 200 but was 404
-         *
-         *     1.2) body: $ Actual map is missing the following keys: currency, id, name, price
-         *
-         *         {
-         *         -  "currency": "USD",
-         *         -  "id": 1,
-         *         -  "name": "TestProduct",
-         *         -  "price": 19.99
-         *         +  "error": "Not Found",
-         *         +  "path": "/product-api/products/",
-         *         +  "status": 404,
-         *         +  "timestamp": "2025-10-07T07:50:53.601+00:00"
-         *         }
-         */
-
         when(productService.getProductById(id))
                 .thenReturn(Optional.of(new Product(id, "TestProduct", new BigDecimal("19.99"), EUR)));
     }
 
-    @State("product 999 not found")
-    void setUpProductNotFound() {
-        when(productService.getProductById(999))
+    @State("product not found")
+    void setUpProductNotFound(Map<String, Object> params) {
+        Integer id = Integer.valueOf(params.getOrDefault("id", 1).toString());
+        when(productService.getProductById(id))
                 .thenReturn(Optional.empty());
     }
 

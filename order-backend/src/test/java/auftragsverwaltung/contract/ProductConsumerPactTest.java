@@ -8,6 +8,7 @@ import au.com.dius.pact.consumer.junit5.PactTestFor;
 import au.com.dius.pact.core.model.PactSpecVersion;
 import au.com.dius.pact.core.model.RequestResponsePact;
 import au.com.dius.pact.core.model.annotations.Pact;
+import au.com.dius.pact.core.model.annotations.PactDirectory;
 import auftragsverwaltung.infrastructure.ProductDTO;
 import auftragsverwaltung.infrastructure.ProductServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -22,20 +23,22 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 @ExtendWith(PactConsumerTestExt.class)
 @PactTestFor(providerName = "product-backend", pactVersion = PactSpecVersion.V3)
+@PactDirectory("../pacts")
 class ProductConsumerPactTest {
 
     @Pact(consumer = "order-backend", provider = "product-backend")
     public RequestResponsePact getProduct_ok(PactDslWithProvider builder) {
+        Integer anyId = 1;
         PactDslJsonBody body = new PactDslJsonBody()
-                .numberType("id", 1)
+                .numberType("id", anyId)
                 .stringType("name", "TestProduct")
                 .numberType("price", 19.99)
                 .stringMatcher("currency", "EUR|USD");
 
         return builder
-                .given("product 1 exists")
-                .uponReceiving("GET /products/1")
-                .path("/products/1")
+                .given("product exists", Map.of("id", anyId))
+                .uponReceiving("GET ein Product das existiert")
+                .pathFromProviderState("/product-api/products/${id}", "/product-api/products/%d".formatted(anyId))
                 .method("GET")
                 .willRespondWith()
                 .status(200)
@@ -46,10 +49,11 @@ class ProductConsumerPactTest {
 
     @Pact(consumer = "order-backend", provider = "product-backend")
     public RequestResponsePact getProduct_notFound(PactDslWithProvider builder) {
+        Integer notFoundId = 999;
         return builder
-                .given("product 999 not found")
-                .uponReceiving("GET /products/999")
-                .path("/products/999")
+                .given("product not found")
+                .uponReceiving("GET eine Produktnummer die nicht existiert")
+                .pathFromProviderState("/product-api/products/${notFoundId}", "/product-api/products/%d".formatted(notFoundId))
                 .method("GET")
                 .willRespondWith()
                 .status(404)

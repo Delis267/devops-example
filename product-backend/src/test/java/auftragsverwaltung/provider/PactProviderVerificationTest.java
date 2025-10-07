@@ -20,7 +20,7 @@ import produktkatalog.domain.Product;
 import produktkatalog.infrastructure.ProductService;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
+import java.util.Map;
 import java.util.Optional;
 
 import static org.mockito.Mockito.when;
@@ -28,7 +28,7 @@ import static produktkatalog.domain.Product.CurrencyCode.EUR;
 
 @Provider("product-backend")
 @Consumer("order-backend")
-@PactFolder("../order-backend/target/pacts")
+@PactFolder("../pacts")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = ProductApp.class)
 @ExtendWith(PactVerificationSpring6Provider.class)
 class PactProviderVerificationTest {
@@ -41,18 +41,20 @@ class PactProviderVerificationTest {
 
     @BeforeEach
     void setup(@NotNull PactVerificationContext ctx) {
-        ctx.setTarget(new HttpTestTarget("localhost", port, "/product-api"));
+        ctx.setTarget(new HttpTestTarget("localhost", port));
     }
 
-    @State("product 1 exists")
-    void setupUpProductExists() {
-        when(productService.getProductById(1))
-                .thenReturn(Optional.of(new Product(1, "TestProduct", new BigDecimal("19.99"), EUR)));
+    @State("product exists")
+    void setupUpProductExists(Map<String, Object> params) {
+        Integer id = Integer.valueOf(params.getOrDefault("id", 1).toString());
+        when(productService.getProductById(id))
+                .thenReturn(Optional.of(new Product(id, "TestProduct", new BigDecimal("19.99"), EUR)));
     }
 
-    @State("product 999 not found")
-    void setUpProductNotFound() {
-        when(productService.getProductById(999))
+    @State("product not found")
+    void setUpProductNotFound(Map<String, Object> params) {
+        Integer id = Integer.valueOf(params.getOrDefault("id", 1).toString());
+        when(productService.getProductById(id))
                 .thenReturn(Optional.empty());
     }
 
@@ -61,14 +63,4 @@ class PactProviderVerificationTest {
     void verify(PactVerificationContext ctx) {
         ctx.verifyInteraction();
     }
-
-
-    private static Integer asInt(Object value) {
-        if (value instanceof Integer i) return i;
-        if (value instanceof Long l) return l.intValue();
-        if (value instanceof BigInteger bi) return bi.intValue();
-        if (value instanceof Number n) return n.intValue();
-        return Integer.parseInt(String.valueOf(value));
-    }
-
 }

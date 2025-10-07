@@ -19,7 +19,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDTO getProductById(Integer id) {
-        String url = baseUrl + "/products/{id}";
+        String url = baseUrl + "/product-api/products/{id}";
         return restTemplate.getForObject(url, ProductDTO.class, id);
     }
 }

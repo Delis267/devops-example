@@ -9,6 +9,7 @@ Dieses Repo demonstriert ohne echte Business-App eine Testlandschaft für den Ku
   - Pact Consumer (Contracttest)
 ### **product-backend** (Spring Boot)
   - Pact Provider (Contract-Verification-Test)
+![Pipelines](.github/cdct_vis_deutsch.png "CDCT")
 ### **perf-gatling** (Maven-Modul)
   - Gatling-Simulation LoadProductKatalog
 ### **frontend** (Simple html+js)

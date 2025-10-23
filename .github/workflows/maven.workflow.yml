@@ -26,7 +26,7 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Maven Build-And-Test
-      run: mvn -B -T1C -pl order-backend,product-backend -am clean verify
+      run: mvn -B -T1C -pl order-backend,product-backend -am clean verify -Pcoverage
 
     - name: Publish JUnit results
       if: always()
@@ -47,8 +47,7 @@ jobs:
   quality_gate:
     runs-on: ubuntu-latest
     needs: build_and_test
-    if: github.event_name == 'pull-request'
+    if: github.event_name == 'pull_request'
     steps:
       - name: Sonar-Analyse
-        run: |
-          echo: "test"
+        run: echo "Quality Gate Step läuft"

@@ -1,11 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>de.delis</groupId>
-        <artifactId>devops-example</artifactId>
-        <version>1.0.0</version>
-    </parent>
+    <properties>
+        <java.version>21</java.version>
+    </properties>
+
     <groupId>devops-demo</groupId>
     <artifactId>perf-gatling</artifactId>
     <version>1.0.0</version>
@@ -25,12 +24,11 @@
     </dependencies>
     <build>
         <plugins>
-
             <plugin>
                 <groupId>io.gatling</groupId>
                 <artifactId>gatling-maven-plugin</artifactId>
                 <configuration>
-                    <simulationClass>simulations.LoginSimulation</simulationClass>
+                    <simulationClass>simulations.ProduktkatalogSimulation</simulationClass>
                 </configuration>
             </plugin>
         </plugins>

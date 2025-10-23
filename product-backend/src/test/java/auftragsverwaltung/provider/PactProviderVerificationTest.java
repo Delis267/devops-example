@@ -39,6 +39,13 @@ class PactProviderVerificationTest {
     @MockitoBean
     ProductService productService;
 
+    @State("product not found")
+    void setUpProductNotFound(Map<String, Object> params) {
+        Integer id = Integer.valueOf(params.getOrDefault("id", 1).toString());
+        when(productService.getProductById(id))
+                .thenReturn(Optional.empty());
+    }
+
     @BeforeEach
     void setup(@NotNull PactVerificationContext ctx) {
         ctx.setTarget(new HttpTestTarget("localhost", port));
@@ -49,13 +56,6 @@ class PactProviderVerificationTest {
         Integer id = Integer.valueOf(params.getOrDefault("id", 1).toString());
         when(productService.getProductById(id))
                 .thenReturn(Optional.of(new Product(id, "TestProduct", new BigDecimal("19.99"), EUR)));
-    }
-
-    @State("product not found")
-    void setUpProductNotFound(Map<String, Object> params) {
-        Integer id = Integer.valueOf(params.getOrDefault("id", 1).toString());
-        when(productService.getProductById(id))
-                .thenReturn(Optional.empty());
     }
 
     @TestTemplate

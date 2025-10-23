@@ -16,13 +16,13 @@ public class ProductController {
 
     private final ProductService productService;
 
-    @GetMapping("/products/{id}")
-    public ResponseEntity<Product> get(@PathVariable("id") Integer id) {
-        return ResponseEntity.of(productService.getProductById(id));//
-    }
-
     @GetMapping("/products")
     public List<Product> getAll() throws InterruptedException {
         return productService.getAllProducts();
+    }
+
+    @GetMapping("/products/{id}")
+    public ResponseEntity<Product> get(@PathVariable("id") Integer id) {
+        return ResponseEntity.of(productService.getProductById(id));//
     }
 }

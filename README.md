@@ -4,6 +4,9 @@ Dieses Repo demonstriert ohne echte Business-App eine Testlandschaft für den Ku
 Folgende Pipeline wird für das fiktive Unternehmen eingesetzt
 ![Pipelines](.github/pipeline_vis.png "Pipelines")
 
+# Teststrategie
+![Contract-Testing](.github/testpyramid_with_contract_tests.png)
+
 ## Projects
 ### **order-backend** (Spring-Boot)
   - Unit-Tests (Domänentest)
